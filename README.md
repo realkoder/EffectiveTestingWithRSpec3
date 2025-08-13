@@ -19,6 +19,30 @@ Src: _Page 2_
 rspec --profile 2
 ```
 
+### Setting up with Bundler
+
+Example will be for `expensee-tracker`
+
+```bash
+# Ensure to be placed in expensee-tracker dir
+gem install bundler
+
+# Setup the bundler - creates the Gemfile
+bundle init
+
+# installs the gems specified in Gem file
+bundle install
+```
+
+Set up project to use _RSpec_ - always run _rspec_ using `bundle exec`.
+
+__Init rspec__ `bundle exec rspec --init` which generates two files:
+
+- `.rspec`: _contains default command-line flags_.
+- `spec/spec_helper.rb`: _contains configuration options_.
+
+Add following `ENV['RACK:ENV'] = 'test'` to ´spec/spec_helper.rb´ to set __ENV__ to _test_.
+
 ---
 
 ### Running the specs we need
@@ -46,10 +70,12 @@ rspec --next-failure
 ```
 
 __Focusing Specific Examples__
+
 ```bash
 # Run examples by tag
 rspec --tag last_run_status:failed
 ```
+
 ---
 
 ## Configurations ⚒️
@@ -75,10 +101,12 @@ end
 ```
 
 ---
- 
-<br>
 
+<br>
 
 ## Gems 💎
 
 - Coderay --> Used for formatting the output
+- rack-test --> Used for HTTP request testing
+- rspec --> The entire lib for RSpec
+- sinatra --> Web framework simpler than Rails
