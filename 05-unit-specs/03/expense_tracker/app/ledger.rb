@@ -3,5 +3,7 @@ module ExpenseTracker
 
   class Ledger
     def record(expenses) end
+
+    def expenses_on(date) end
   end
 end
