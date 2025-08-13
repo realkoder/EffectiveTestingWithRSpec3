@@ -34,7 +34,7 @@ bundle init
 bundle install
 ```
 
-Set up project to use _RSpec_ - always run _rspec_ using `bundle exec`.
+Set up project to use _RSpec_ - always run _rspec_ using `bundle exec rspec`.
 
 __Init rspec__ `bundle exec rspec --init` which generates two files:
 
