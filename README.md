@@ -145,14 +145,12 @@ UserService.create # => "fake user"
 
 ## Important CLI commands 🎮
 
-**Running with --profile to track slowest examples**
+#### Running with --profile to track slowest examples
 
 ``` bash
-
 # The number is to define the amount of tracked slower examples being executed
 
 rspec --profile 2
-
 ```
 
 ### Setting up with Bundler
@@ -216,6 +214,12 @@ __Focusing Specific Examples__
 ```bash
 # Run examples by tag
 rspec --tag last_run_status:failed
+```
+
+#### Getting a formatted output for documentation
+
+```bash
+bundle exec rspec --format documentation
 ```
 
 ---

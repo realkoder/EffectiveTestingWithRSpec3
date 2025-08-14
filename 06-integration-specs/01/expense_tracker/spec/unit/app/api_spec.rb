@@ -14,11 +14,11 @@ module ExpenseTracker
     describe 'GET /expenses/:date' do
       context 'when expenses exist on the given date' do
         before do
-          allow(ledger).to receive(:expenses_on).with('2017-06-10').and_return(['expense_1', 'expense_2'])
+          allow(ledger).to receive(:expenses_on).with('2017-06-helper-methods-10').and_return(['expense_1', 'expense_2'])
         end
 
         it 'returns the expense records as JSON' do
-          get '/expenses/2017-06-10'
+          get '/expenses/2017-06-helper-methods-10'
 
           parsed = JSON.parse(last_response.body)
           expect(parsed).to be_a(Array)
@@ -26,18 +26,18 @@ module ExpenseTracker
         end
 
         it 'responds with 200 (OK)' do
-          get '/expenses/2017-06-10'
+          get '/expenses/2017-06-helper-methods-10'
           expect(last_response.status).to eq(200)
         end
       end
 
       context 'when there are no expenses on the given date' do
         before do
-          allow(ledger).to receive(:expenses_on).with('2017-06-10').and_return([])
+          allow(ledger).to receive(:expenses_on).with('2017-06-helper-methods-10').and_return([])
         end
 
         it 'returns an empty array' do
-          get '/expenses/2017-06-10'
+          get '/expenses/2017-06-helper-methods-10'
 
           parsed = JSON.parse(last_response.body)
           expect(parsed).to be_a(Array)
@@ -45,7 +45,7 @@ module ExpenseTracker
         end
 
         it 'responds with 200 (OK)' do
-          get '/expenses/2017-06-10'
+          get '/expenses/2017-06-helper-methods-10'
           expect(last_response.status).to eq(200)
         end
       end
