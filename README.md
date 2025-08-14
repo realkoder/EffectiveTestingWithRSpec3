@@ -2,7 +2,7 @@
 
 ## Definitions 🧾
 
-### test_ vs _spec_ vs _example
+### _test_ vs _spec_ vs _example_
 
 Src: _Page 2_
 
@@ -127,11 +127,27 @@ UserService.create # => "fake user"
 
 ---
 
-## CMD 🎮
+#### Visual summary
+
+| Term                 | Fake Object? | Method Call Verified? | Matches Real API? | Works on Real Object? |
+|----------------------|--------------|-----------------------|-------------------|-----------------------|
+| **Stub**             | Maybe        | ❌                     | ❌                 | ✅ (partial double)    |
+| **Mock**             | Maybe        | ✅ (before)            | ❌                 | ✅ (partial double)    |
+| **Spy**              | Maybe        | ✅ (after)             | ❌                 | ✅ (partial double)    |
+| **Partial Double**   | ❌            | ❌/✅                   | ❌                 | ✅                     |
+| **Pure Double**      | ✅            | ❌/✅                   | ❌                 | ❌                     |
+| **Verifying Double** | ✅            | ❌/✅                   | ✅                 | ❌                     |
+| **Stubbed Constant** | ✅            | ❌/✅                   | Optional          | ❌                     |
+
+---
+
+<br>
+
+## Important CLI commands 🎮
 
 **Running with --profile to track slowest examples**
 
-` `` bash
+``` bash
 
 # The number is to define the amount of tracked slower examples being executed
 
@@ -162,6 +178,12 @@ __Init rspec__ `bundle exec rspec --init` which generates two files:
 - `spec/spec_helper.rb`: _contains configuration options_.
 
 Add following `ENV['RACK:ENV'] = 'test'` to ´spec/spec_helper.rb´ to set __ENV__ to _test_.
+
+---
+
+### Using Sequel as DB TOOLKIT with SQLite3
+
+This is to enable a migration: `bundle exec sequel -m ./db/migrations sqlite://db/development.db --echo`
 
 ---
 
@@ -211,13 +233,97 @@ end
 
 ---
 
-__Configure RSpec to run just focused examples.
+#### Configure RSpec to run just focused examples.
 
 ```ruby
 RSpec.configure do |config|
   # This enables to only run focused examples by: fcontext or fit
   config.filter_run_when_matching(focus: true)
 end
+```
+
+#### Configure RSpec when a tag is matched a block is yielded
+
+```ruby
+config.when_first_matching_example_defined(:db) do
+  require_relative '/support/db'
+end
+```
+
+---
+
+<br>
+
+## RSpec Tagging
+
+RSpec supports **tags** to help organize, filter, and control the execution of tests. Tags are metadata that can
+be attached to example groups (`describe` or `context`) or individual examples (`it`). They are specified as Ruby hash
+syntax
+in curly braces `{}` right after the description.
+
+```ruby
+RSpec.describe "Payment Processing", :integration do
+  it "processes a payment" do
+    # test code
+  end
+end
+
+RSpec.describe "User Login" do
+  it "logs in a valid user", :smoke do
+    # test code
+  end
+end
+```
+
+You can run only tests with specific tags using the --tag option:
+
+```bash
+rspec --tag integration
+rspec --tag smoke
+```
+
+You can also exclude tags:
+
+```bash
+rspec --tag ~integration
+```
+
+__Custom Tags__ Tags can carry values, allowing more control:
+
+```ruby
+RSpec.describe "API", type: :request, version: 2 do
+  it "returns correct data" do
+    # test code
+  end
+end
+
+# Run only version 2 tests
+rspec --tag version : 2
+```
+
+#### Special Tag: :aggregate_failures
+
+The __:aggregate_failures__ tag tells RSpec to collect multiple failed expectations within a single example and report
+them together instead of stopping at the first failure.
+
+Without :aggregate_failures (default behavior):
+
+```ruby
+it "checks multiple conditions" do
+  expect(1).to eq(2) # fails here, stops
+  expect("foo").to eq("bar") # never runs
+end
+```
+
+With :aggregate_failures:
+
+```ruby
+it "checks multiple conditions", :aggregate_failures do
+  expect(1).to eq(2) # fails, but continues
+  expect("foo").to eq("bar") # also fails
+end
+Output :
+  Both failures are shown together, making it easier to debug related expectations.
 ```
 
 ---
