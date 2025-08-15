@@ -21,7 +21,7 @@ module ExpenseTracker
                                                 id: result.expense_id,
                                                 payee: 'Starbucks',
                                                 amount: 5.75,
-                                                date: Date.iso8601('2017-06-helper-methods-10')
+                                                date: Date.iso8601('2017-06-10')
                                               )]
         end
       end
